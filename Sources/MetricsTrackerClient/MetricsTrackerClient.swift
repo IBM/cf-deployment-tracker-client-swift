@@ -144,9 +144,11 @@ public struct MetricsTrackerClient {
       jsonEvent["bound_vcap_services"] = serviceDictionary
     }
   }
-    let path = NSBundle.mainBundle().pathForResource("repository", ofType: "yaml")
-    let file = String(contentsOfFile: path, encoding: NSUTF8StringEncoding, error: nil)
-    Log.verbose("The file output is: \(file)")
+    let path = Bundle.main.path(forResource: "repository", ofType: "yaml")
+    do{
+      let data = try? String(contentsOfFile: path, encoding: .utf8)
+      Log.verbose("The file output is: \(data)")
+    }catch{}
 
     // do {
     // jsonEvent["config"] = [:]

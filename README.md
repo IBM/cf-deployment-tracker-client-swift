@@ -42,11 +42,11 @@ You can download different versions of the Swift binaries by following this [lin
 2. Once the Package.swift file of your application has been updated accordingly, you can import the `CloudFoundryDeploymentTracker` module in your code. Additionally, you will need to initialize the CloudFoundryDeploymentTracker and call the `track()` method, as seen here:
 
 	```
-	import CloudFoundryDeploymentTracker
+	import MetricsTrackerClient
 
 	...
 
-	CloudFoundryDeploymentTracker().track()
+	MetricsTrackerClient().track()
 
 	```
 The above code should be used within the main entry point of your Swift application, generally before you start your server.
