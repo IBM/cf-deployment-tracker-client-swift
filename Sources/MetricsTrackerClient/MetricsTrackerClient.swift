@@ -121,7 +121,7 @@ public struct MetricsTrackerClient {
     jsonEvent["application_uris"] = vcapApplication.uris
     jsonEvent["instance_index"] = vcapApplication.instanceIndex
 
-    Log.info("vcapapplication: \(vcapApplication)")
+    Log.warning("vcapapplication: \(vcapApplication)")
 
     Log.verbose("Verifying services bound to application...")
     let services = configMgr.getServices()
@@ -152,9 +152,13 @@ public struct MetricsTrackerClient {
         let data = try String(contentsOfFile: path, encoding: .utf8)
         Log.info("The file output is: \(data)")
       }catch{
-        Log.info("repository.yaml is not found")
+        Log.info("repository.yaml is causing error")
       }
+    } else {
+      Log.info("repository.yaml is not found")
     }
+    
+    log.warning("warning printed")
 
     // do {
     // jsonEvent["config"] = [:]
