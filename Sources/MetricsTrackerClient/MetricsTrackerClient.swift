@@ -146,7 +146,7 @@ public struct MetricsTrackerClient {
   }
     let path = Bundle.main.path(forResource: "repository", ofType: "yaml")
     do{
-      let data = try? String(contentsOfFile: path, encoding: .utf8)
+      let data = try String(contentsOfFile: path, encoding: .utf8)
       Log.verbose("The file output is: \(data)")
     }catch{}
 
