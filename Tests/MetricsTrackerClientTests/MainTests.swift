@@ -24,7 +24,7 @@ import XCTest
 import CloudFoundryEnv
 import Configuration
 
-@testable import MetricsTrackerClientTracker
+@testable import MetricsTrackerClient
 
 class MainTests: XCTestCase {
 
@@ -62,7 +62,7 @@ class MainTests: XCTestCase {
     loadJsonOptions(options: options)
     let configMgr = ConfigurationManager()
     configMgr.load(jsonOptions)
-    let tracker = CloudFoundryDeploymentTracker(configMgr: configMgr, repositoryURL: testRepoURL)
+    let tracker = MetricsTrackerClient(configMgr: configMgr, repositoryURL: testRepoURL)
     guard let jsonResult = tracker.buildTrackerJson(configMgr: configMgr) else {
       XCTFail("Failed to receive json from build tracker method.")
       return
@@ -99,7 +99,7 @@ class MainTests: XCTestCase {
     loadJsonOptions(options: optionsTwo)
     let configMgr = ConfigurationManager()
     configMgr.load(jsonOptions)
-    let tracker = CloudFoundryDeploymentTracker(configMgr: configMgr, repositoryURL: testRepoURL, codeVersion: testCodeVersion)
+    let tracker = MetricsTrackerClient(configMgr: configMgr, repositoryURL: testRepoURL, codeVersion: testCodeVersion)
     guard let jsonResult = tracker.buildTrackerJson(configMgr: configMgr) else {
       XCTFail("Failed to receive json from build tracker method.")
       return
@@ -148,7 +148,7 @@ class MainTests: XCTestCase {
     loadJsonOptions(options: optionsTwo)
     let configMgr = ConfigurationManager()
     configMgr.load(jsonOptions)
-    let tracker = CloudFoundryDeploymentTracker(configMgr: configMgr, repositoryURL: testRepoURL)
+    let tracker = MetricsTrackerClient(configMgr: configMgr, repositoryURL: testRepoURL)
     guard let dictionaryPayload = tracker.buildTrackerJson(configMgr: configMgr) else {
       XCTFail("Failed to receive json from build tracker method.")
       return
