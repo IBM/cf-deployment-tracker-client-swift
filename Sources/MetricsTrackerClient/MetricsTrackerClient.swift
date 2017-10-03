@@ -112,6 +112,7 @@ public struct MetricsTrackerClient {
     }
     jsonEvent["runtime"] = "swift"
     if let vcapApplication = configMgr.getApp() {
+
     
     jsonEvent["application_name"] = vcapApplication.name
     jsonEvent["space_id"] = vcapApplication.spaceId
@@ -119,6 +120,8 @@ public struct MetricsTrackerClient {
     jsonEvent["application_version"] = vcapApplication.version
     jsonEvent["application_uris"] = vcapApplication.uris
     jsonEvent["instance_index"] = vcapApplication.instanceIndex
+
+    Log.info("vcapapplication: \(vcapApplication)")
 
     Log.verbose("Verifying services bound to application...")
     let services = configMgr.getServices()
