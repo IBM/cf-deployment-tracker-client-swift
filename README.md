@@ -31,10 +31,10 @@ You can download different versions of the Swift binaries by following this [lin
 	     dependencies: [
 	     
 	     	// Swift 3.1.1
-	         .Package(url: "https://github.com/IBM-Bluemix/cf-deployment-tracker-client-swift.git", majorVersion: 4),
+	         .Package(url: "https://github.com/IBM/metrics-tracker-client-swift.git", majorVersion: 5),
 		 
 		 // Swift 4.0
-		.package(url: "https://github.com/IBM-Bluemix/cf-deployment-tracker-client-swift.git", .upToNextMajor(from: "4.0.0")),
+		.package(url: "https://github.com/IBM/metrics-tracker-client-swift.git", .upToNextMajor(from: "5.0.0")),
 	         ...
 
 	     ])
@@ -46,7 +46,7 @@ You can download different versions of the Swift binaries by following this [lin
 
 	...
 
-	CloudFoundryDeploymentTracker(repositoryURL: "https://github.com/IBM-Bluemix/Kitura-Starter.git").track()
+	CloudFoundryDeploymentTracker().track()
 
 	```
 The above code should be used within the main entry point of your Swift application, generally before you start your server.

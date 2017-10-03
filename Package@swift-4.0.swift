@@ -19,11 +19,11 @@
 import PackageDescription
 
 let package = Package(
-    name: "CloudFoundryDeploymentTracker",
+    name: "MetricsTrackerClient",
     products: [
       .library(
-        name: "CloudFoundryDeploymentTracker",
-        targets: ["CloudFoundryDeploymentTracker"]
+        name: "MetricsTrackerClient",
+        targets: ["MetricsTrackerClient"]
       )
     ],
     dependencies: [
@@ -32,12 +32,12 @@ let package = Package(
     ],
     targets: [
       .target(
-        name: "CloudFoundryDeploymentTracker",
+        name: "MetricsTrackerClient",
         dependencies: ["CloudFoundryEnv", "LoggerAPI"]
       ),
       .testTarget(
-        name: "CloudFoundryDeploymentTrackerTests",
-        dependencies: ["CloudFoundryDeploymentTracker"]
+        name: "MetricsTrackerClientTests",
+        dependencies: ["MetricsTrackerClient"]
       )
     ]
 )

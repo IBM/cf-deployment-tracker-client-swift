@@ -24,7 +24,7 @@ import XCTest
 import CloudFoundryEnv
 import Configuration
 
-@testable import CloudFoundryDeploymentTracker
+@testable import MetricsTrackerClientTracker
 
 class MainTests: XCTestCase {
 

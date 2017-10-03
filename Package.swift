@@ -17,10 +17,10 @@
 import PackageDescription
 
 let package = Package(
-    name: "CloudFoundryDeploymentTracker",
+    name: "MetricsTrackerClient",
     targets: [
       Target(
-        name: "CloudFoundryDeploymentTracker",
+        name: "MetricsTrackerClient",
         dependencies: []
       ),
     ],
