@@ -145,9 +145,9 @@ public struct MetricsTrackerClient {
     }
   }
     if let path = Bundle.main.path(forResource: "repository", ofType: "yaml"),
-      let data = NSDictionary(contentsOfFile: path).
+      let data = NSDictionary(contentsOfFile: path),
       let key = data.object(forKey: key) as? String {
-            Log.info("The file output is: \(key)")
+            print("The file output is: \(key)")
         }
 
     // do {
