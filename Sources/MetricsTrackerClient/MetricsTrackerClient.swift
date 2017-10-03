@@ -144,11 +144,11 @@ public struct MetricsTrackerClient {
       jsonEvent["bound_vcap_services"] = serviceDictionary
     }
   }
-    let path = Bundle.main.path(forResource: "repository", ofType: "yaml")
-    do{
-      let data = try String(contentsOfFile: path, encoding: .utf8)
-      Log.verbose("The file output is: \(data)")
-    }catch{}
+    if let path = Bundle.main.path(forResource: "repository", ofType: "yaml"),
+      let data = NSDictionary(contentsOfFile: path).
+      let key = data.object(forKey: key) as? String {
+            Log.info("The file output is: \(key)")
+        }
 
     // do {
     // jsonEvent["config"] = [:]
