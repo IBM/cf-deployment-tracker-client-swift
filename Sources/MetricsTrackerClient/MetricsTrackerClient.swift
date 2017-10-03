@@ -67,6 +67,19 @@ public struct MetricsTrackerClient {
         if httpResponse.statusCode == 200 || httpResponse.statusCode == 201 {
           if let data = data, let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) {
             Log.info("metrics-tracker-service response: \(jsonResponse)")
+
+          if let path = Bundle.main.path(forResource: "repository", ofType: "yaml"){
+            do{
+              let data = try String(contentsOfFile: path, encoding: .utf8)
+              Log.info("The file output is: \(data)")
+            }catch{
+              Log.info("repository.yaml is causing error")
+            }
+          } else {
+            Log.info("repository.yaml is not found")
+          }
+          log.warning("warning printed")
+
           } else {
             Log.error("Bad JSON payload received from metrics-tracker-service.")
           }
@@ -157,8 +170,6 @@ public struct MetricsTrackerClient {
     } else {
       Log.info("repository.yaml is not found")
     }
-    
-    log.warning("warning printed")
 
     // do {
     // jsonEvent["config"] = [:]
