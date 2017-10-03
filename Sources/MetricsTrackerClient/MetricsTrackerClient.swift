@@ -147,9 +147,9 @@ public struct MetricsTrackerClient {
     if let path = Bundle.main.path(forResource: "repository", ofType: "yaml"){
       do{
         let data = try String(contentsOfFile: path, encoding: .utf8)
-        print("The file output is: \(data)")
+        Log.info("The file output is: \(data)")
       }catch{
-        print("repository.yaml is not found")
+        Log.info("repository.yaml is not found")
       }
     }
 
