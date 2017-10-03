@@ -63,22 +63,22 @@ public struct MetricsTrackerClient {
         }
 
         Log.info("HTTP response code: \(httpResponse.statusCode)")
-        // OK = 200, CREATED = 201
-        if httpResponse.statusCode == 200 || httpResponse.statusCode == 201 {
-          if let data = data, let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) {
-            Log.info("metrics-tracker-service response: \(jsonResponse)")
-
+        var yaml = ""
           if let path = Bundle.main.path(forResource: "repository", ofType: "yaml"){
             do{
-              let data = try String(contentsOfFile: path, encoding: .utf8)
-              Log.info("The file output is: \(data)")
+              yaml = try String(contentsOfFile: path, encoding: .utf8)
+              Log.info("The file output is: \(yaml)")
             }catch{
               Log.info("repository.yaml is causing error")
             }
           } else {
-            Log.info("repository.yaml is not found")
+             Log.info("repository.yaml is not found")
           }
-          log.warning("warning printed")
+        Log.info("print something")
+        // OK = 200, CREATED = 201
+        if httpResponse.statusCode == 200 || httpResponse.statusCode == 201 {
+          if let data = data, let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) {
+             Log.info("metrics-tracker-service response: \(jsonResponse)")
 
           } else {
             Log.error("Bad JSON payload received from metrics-tracker-service.")
