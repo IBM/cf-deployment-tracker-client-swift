@@ -104,18 +104,15 @@ public struct MetricsTrackerClient {
       }
     var yaml = ""
     var request = URLRequest(url: url)
-    if let url = urlString {
-       let requestTask = URLSession.shared.dataTask(with: request) { (yamldata, response, error) in
-       if error != nil {
-            print(error)
-       } else {
-            if let yamlData = yamldata {
-                 yaml = yamlData
-                 }
-            }
-       }
+    let requestTask = URLSession.shared.dataTask(with: request) { (yamldata, response, error) in
+    if error != nil {
+    } else {
+        if let yamlData = yamldata {
+             yaml = yamlData
+             }
+        }
+    }
     requestTask.resume()
-  }
 
     Log.verbose("Preparing dictionary payload for metrics-tracker-service...")
     let dateFormatter = DateFormatter()
