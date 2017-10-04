@@ -158,22 +158,13 @@ public struct MetricsTrackerClient {
 
     do {
     let journey_metric = try Yaml.load(yaml)
-    jsonEvent["config"] = [:]
-    if journey_metric["id"] { 
-      jsonEvent["config"]["repository_id"] = journey_metric["id"] 
-  } else { jsonEvent["config"]["repository_id"] = ""}
-    if journey_metric["runtimes"] { 
-      jsonEvent["config"]["target_runtimes"] = journey_metric["runtimes"] 
-  } else { jsonEvent["config"]["target_runtimes"] = ""}
-    if journey_metric["services"] { 
-      jsonEvent["config"]["target_services"] = journey_metric["services"] 
-  } else { jsonEvent["config"]["target_services"] = ""}
-    if journey_metric["event_id"] { 
-      jsonEvent["config"]["event_id"] = journey_metric["event_id"] 
-  } else { jsonEvent["config"]["event_id"] = ""}
-    if journey_metric["event_organizer"] { 
-      jsonEvent["config"]["event_organizer"] = journey_metric["event_organizer"] 
-  } else { jsonEvent["config"]["event_organizer"] = ""}
+    var metrics = [String: Any]()
+    metrics["repository_id"] = journey_metric["id"]
+    metrics["target_runtimes"] = journey_metric["runtimes"]
+    metrics["target_services"] = journey_metric["services"]
+    metrics["event_id"] = journey_metric["event_id"]
+    metrics["event_organizer"] = journey_metric["event_organizer"]
+    jsonEvent["config"] = metrics
     } catch {
       Log.verbose("repository.yaml not exist.")
     }
