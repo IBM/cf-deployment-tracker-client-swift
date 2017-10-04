@@ -64,17 +64,6 @@ public struct MetricsTrackerClient {
         }
 
         Log.info("HTTP response code: \(httpResponse.statusCode)")
-        var yaml = ""
-          if let path = Bundle.main.path(forResource: "repository", ofType: "yaml"){
-            do{
-              yaml = try String(contentsOfFile: path, encoding: .utf8)
-              Log.info("The file output is: \(yaml)")
-            }catch{
-              Log.info("repository.yaml is causing error")
-            }
-          } else {
-             Log.info("repository.yaml is not found")
-          }
         // OK = 200, CREATED = 201
         if httpResponse.statusCode == 200 || httpResponse.statusCode == 201 {
           if let data = data, let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) {
@@ -133,8 +122,6 @@ public struct MetricsTrackerClient {
     jsonEvent["application_version"] = vcapApplication.version
     jsonEvent["application_uris"] = vcapApplication.uris
     jsonEvent["instance_index"] = vcapApplication.instanceIndex
-
-    Log.info("vcapapplication: \(vcapApplication)")
 
     Log.verbose("Verifying services bound to application...")
     let services = configMgr.getServices()
