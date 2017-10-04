@@ -22,19 +22,21 @@ import Yaml
 
 public struct MetricsTrackerClient {
   let configMgr: ConfigurationManager
-  var repositoryURL: String?
+  let repository: String
+  let organization: String?
   var codeVersion: String?
 
-  public init(configMgr: ConfigurationManager, repositoryURL: String? = nil, codeVersion: String? = nil) {
-    self.repositoryURL = repositoryURL
+  public init(configMgr: ConfigurationManager, repository: String, organization: String? = "IBM", codeVersion: String? = nil) {
+    self.repository = repository
     self.codeVersion = codeVersion
     self.configMgr = configMgr
+    self.organization = organization
   }
 
-  public init(repositoryURL: String? = nil, codeVersion: String? = nil) {
+  public init(repository: String, organization: String? = "IBM", codeVersion: String? = nil) {
     let configMgr = ConfigurationManager()
     configMgr.load(.environmentVariables)
-    self.init(configMgr: configMgr, repositoryURL: repositoryURL, codeVersion: codeVersion)
+    self.init(configMgr: configMgr, repository: repository, organization: organization, codeVersion: codeVersion)
   }
 
   /// Sends off HTTP post request to tracking service, simply logging errors on failure
@@ -91,6 +93,11 @@ public struct MetricsTrackerClient {
   /// - returns: JSON, assuming we have access to application info
   public func buildTrackerJson(configMgr: ConfigurationManager) -> [String:Any]? {
     var jsonEvent: [String:Any] = [:]
+    var urlString = "https://raw.githubusercontent.com/" + repository + "/" + organization + "/master/repository.yaml"
+    guard let url = URL(string: urlString) else {
+        Log.verbose("Failed to create URL object to connect to the github repository...")
+        return nil
+      }
 
     Log.verbose("Preparing dictionary payload for metrics-tracker-service...")
     let dateFormatter = DateFormatter()
@@ -108,9 +115,6 @@ public struct MetricsTrackerClient {
 
     if let codeVersion = self.codeVersion {
       jsonEvent["code_version"] = codeVersion
-    }
-    if let repositoryURL = self.repositoryURL{
-      jsonEvent["repository_url"] = repositoryURL
     }
     jsonEvent["runtime"] = "swift"
     if let vcapApplication = configMgr.getApp() {
@@ -148,13 +152,25 @@ public struct MetricsTrackerClient {
     }
   }
     var yaml = ""
-    let path = "repository.yaml"
-      do{
-        yaml = try String(contentsOfFile: path, encoding: .utf8)
-        Log.info("The file output is: \(yaml)")
-      }catch{
-        Log.info("repository.yaml is not found.")
-      }
+    let urlString = URL(string: urlString)
+    if let url = urlString {
+       let requestTask = URLSession.shared.dataTask(with: url) { (yamldata, response, error) in
+       if error != nil {
+            print(error)
+       } else {
+            if let yamlData = yamldata {
+                 yaml = yamlData
+                 }
+            }
+       }
+    requestTask.resume()
+
+    do{
+      yaml = try String(contentsOfFile: path, encoding: .utf8)
+      Log.info("The file output is: \(yaml)")
+    }catch{
+      Log.info("repository.yaml is not found.")
+    }
 
     do {
     let journey_metric = try Yaml.load(yaml)
@@ -166,7 +182,7 @@ public struct MetricsTrackerClient {
     metrics["event_organizer"] = journey_metric["event_organizer"]
     jsonEvent["config"] = metrics
     } catch {
-      Log.verbose("repository.yaml not exist.")
+      Log.info("repository.yaml not exist.")
     }
 
     Log.verbose("Finished preparing dictionary payload for metrics-tracker-service.")
