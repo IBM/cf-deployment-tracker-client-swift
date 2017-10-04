@@ -156,7 +156,6 @@ public struct MetricsTrackerClient {
     }
   }
     var yaml = ""
-    urlString = URL(string: urlString)
     if let url = urlString {
        let requestTask = URLSession.shared.dataTask(with: url) { (yamldata, response, error) in
        if error != nil {
