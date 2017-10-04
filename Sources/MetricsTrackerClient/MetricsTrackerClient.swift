@@ -155,39 +155,20 @@ public struct MetricsTrackerClient {
       }catch{
         Log.info("repository.yaml is not found.")
       }
-    var journey_metric : [String:Any] = [:]
 
     do{
-      journey_metric = try Yaml.load(yaml)
-    }catch{}
+      var journey_metric = try Yaml.load(yaml)
+    }catch{
+      var journey_metric : [String:Any] = [:]
+    }
 
     do {
     jsonEvent["config"] = [:]
-    if journey_metric["id"] {
-      jsonEvent["config"]["repository_id"] = journey_metric["id"]
-    } else {
-      jsonEvent["config"]["repository_id"] = ""
-    }
-    if journey_metric["runtimes"] {
-      jsonEvent["config"]["target_runtimes"] = journey_metric["runtimes"]
-    } else {
-      jsonEvent["config"]["target_runtimes"] = ""
-    }
-    if journey_metric["services"] {
-      jsonEvent["config"]["target_services"] = journey_metric["services"]
-    } else {
-      jsonEvent["config"]["target_services"] = ""
-    }
-    if journey_metric["event_id"] {
-      jsonEvent["config"]["event_id"] = journey_metric["event_id"]
-    } else {
-      jsonEvent["config"]["event_id"] = ""
-    }
-    if journey_metric["event_organizer"] {
-      jsonEvent["config"]["event_organizer"] = journey_metric["event_organizer"]
-    } else {
-      jsonEvent["config"]["event_organizer"] = ""
-    }
+    jsonEvent["config"]["repository_id"] = try journey_metric["id"]
+    jsonEvent["config"]["target_runtimes"] = try journey_metric["runtimes"]
+    jsonEvent["config"]["target_services"] = try journey_metric["services"]
+    jsonEvent["config"]["event_id"] = try journey_metric["event_id"]
+    jsonEvent["config"]["event_organizer"] = try journey_metric["event_organizer"]
     } catch {
       Log.verbose("repository.yaml not exist.")
     }
