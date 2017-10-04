@@ -102,6 +102,20 @@ public struct MetricsTrackerClient {
         Log.verbose("Failed to create URL object to connect to the github repository...")
         return nil
       }
+    var yaml = ""
+    var request = URLRequest(url: url)
+    if let url = urlString {
+       let requestTask = URLSession.shared.dataTask(with: request) { (yamldata, response, error) in
+       if error != nil {
+            print(error)
+       } else {
+            if let yamlData = yamldata {
+                 yaml = yamlData
+                 }
+            }
+       }
+    requestTask.resume()
+  }
 
     Log.verbose("Preparing dictionary payload for metrics-tracker-service...")
     let dateFormatter = DateFormatter()
@@ -154,19 +168,6 @@ public struct MetricsTrackerClient {
       }
       jsonEvent["bound_vcap_services"] = serviceDictionary
     }
-  }
-    var yaml = ""
-    if let url = urlString {
-       let requestTask = URLSession.shared.dataTask(with: url) { (yamldata, response, error) in
-       if error != nil {
-            print(error)
-       } else {
-            if let yamlData = yamldata {
-                 yaml = yamlData
-                 }
-            }
-       }
-    requestTask.resume()
   }
 
     do {
