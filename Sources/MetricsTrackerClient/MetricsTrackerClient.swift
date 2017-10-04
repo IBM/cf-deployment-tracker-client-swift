@@ -97,18 +97,19 @@ public struct MetricsTrackerClient {
     if let organization = self.organization {
       org = organization
     }
-    var urlString = "https://raw.githubusercontent.com/" + org + "/" + repository + "/master/repository.yaml"
+    let urlString = "https://raw.githubusercontent.com/" + org + "/" + repository + "/master/repository.yaml"
     guard let url = URL(string: urlString) else {
         Log.verbose("Failed to create URL object to connect to the github repository...")
         return nil
       }
     var yaml = ""
-    var request = URLRequest(url: url)
+    let request = URLRequest(url: url)
     let requestTask = URLSession.shared.dataTask(with: request) { (yamldata, response, error) in
     if error != nil {
     } else {
         if let yamlData = yamldata {
-             yaml = yamlData
+             Log.info("data is \(yamldata)")
+             // yaml = yamlData
              }
         }
     }
