@@ -156,13 +156,8 @@ public struct MetricsTrackerClient {
         Log.info("repository.yaml is not found.")
       }
 
-    do{
-      var journey_metric = try Yaml.load(yaml)
-    }catch{
-      var journey_metric : [String:Any] = [:]
-    }
-
     do {
+    let journey_metric = try Yaml.load(yaml)
     jsonEvent["config"] = [:]
     jsonEvent["config"]["repository_id"] = try journey_metric["id"]
     jsonEvent["config"]["target_runtimes"] = try journey_metric["runtimes"]
