@@ -23,7 +23,7 @@ import Yaml
 public struct MetricsTrackerClient {
   let configMgr: ConfigurationManager
   let repository: String
-  let organization: String?
+  var organization: String?
   var codeVersion: String?
 
   public init(configMgr: ConfigurationManager, repository: String, organization: String? = "IBM", codeVersion: String? = nil) {
@@ -93,7 +93,11 @@ public struct MetricsTrackerClient {
   /// - returns: JSON, assuming we have access to application info
   public func buildTrackerJson(configMgr: ConfigurationManager) -> [String:Any]? {
     var jsonEvent: [String:Any] = [:]
-    var urlString = "https://raw.githubusercontent.com/" + repository + "/" + organization + "/master/repository.yaml"
+    var org = "IBM"
+    if let organization = self.organization {
+      org = organization
+    }
+    var urlString = "https://raw.githubusercontent.com/" + org + "/" + repository + "/master/repository.yaml"
     guard let url = URL(string: urlString) else {
         Log.verbose("Failed to create URL object to connect to the github repository...")
         return nil
@@ -165,13 +169,6 @@ public struct MetricsTrackerClient {
        }
     requestTask.resume()
   }
-
-    do{
-      yaml = try String(contentsOfFile: path, encoding: .utf8)
-      Log.info("The file output is: \(yaml)")
-    }catch{
-      Log.info("repository.yaml is not found.")
-    }
 
     do {
     let journey_metric = try Yaml.load(yaml)
