@@ -164,6 +164,7 @@ public struct MetricsTrackerClient {
             }
        }
     requestTask.resume()
+  }
 
     do{
       yaml = try String(contentsOfFile: path, encoding: .utf8)
