@@ -18,6 +18,7 @@ import Foundation
 import Configuration
 import CloudFoundryEnv
 import LoggerAPI
+import Yaml
 
 public struct MetricsTrackerClient {
   let configMgr: ConfigurationManager
@@ -74,7 +75,6 @@ public struct MetricsTrackerClient {
           } else {
              Log.info("repository.yaml is not found")
           }
-        Log.info("print something")
         // OK = 200, CREATED = 201
         if httpResponse.statusCode == 200 || httpResponse.statusCode == 201 {
           if let data = data, let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) {
@@ -134,7 +134,7 @@ public struct MetricsTrackerClient {
     jsonEvent["application_uris"] = vcapApplication.uris
     jsonEvent["instance_index"] = vcapApplication.instanceIndex
 
-    Log.warning("vcapapplication: \(vcapApplication)")
+    Log.info("vcapapplication: \(vcapApplication)")
 
     Log.verbose("Verifying services bound to application...")
     let services = configMgr.getServices()
@@ -160,48 +160,50 @@ public struct MetricsTrackerClient {
       jsonEvent["bound_vcap_services"] = serviceDictionary
     }
   }
-    if let path = Bundle.main.path(forResource: "repository", ofType: "yaml"){
+    var yaml = ""
+    let path = "repository.yaml"
       do{
-        let data = try String(contentsOfFile: path, encoding: .utf8)
-        Log.info("The file output is: \(data)")
+        yaml = try String(contentsOfFile: path, encoding: .utf8)
+        Log.info("The file output is: \(yaml)")
       }catch{
-        Log.info("repository.yaml is causing error")
+        Log.info("repository.yaml is not found.")
       }
+    var journey_metric : [String:Any] = [:]
+
+    do{
+      journey_metric = try Yaml.load(yaml)
+    }catch{}
+
+    do {
+    jsonEvent["config"] = [:]
+    if journey_metric["id"] {
+      jsonEvent["config"]["repository_id"] = journey_metric["id"]
     } else {
-      Log.info("repository.yaml is not found")
+      jsonEvent["config"]["repository_id"] = ""
     }
-
-    // do {
-    // jsonEvent["config"] = [:]
-    // if journey_metric["id"] {
-    //   jsonEvent["config"]["repository_id"] = journey_metric["id"]
-    // } else {
-    //   jsonEvent["config"]["repository_id"] = ""
-    // }
-    // if journey_metric["runtimes"] {
-    //   jsonEvent["config"]["target_runtimes"] = journey_metric["runtimes"]
-    // } else {
-    //   jsonEvent["config"]["target_runtimes"] = ""
-    // }
-    // if journey_metric["services"] {
-    //   jsonEvent["config"]["target_services"] = journey_metric["services"]
-    // } else {
-    //   jsonEvent["config"]["target_services"] = ""
-    // }
-    // if journey_metric["event_id"] {
-    //   jsonEvent["config"]["event_id"] = journey_metric["event_id"]
-    // } else {
-    //   jsonEvent["config"]["event_id"] = ""
-    // }
-    // if journey_metric["event_organizer"] {
-    //   jsonEvent["config"]["event_organizer"] = journey_metric["event_organizer"]
-    // } else {
-    //   jsonEvent["config"]["event_organizer"] = ""
-    // }
-    // } catch {
-    //   Log.verbose("repository.yaml not exist.")
-    // }
-
+    if journey_metric["runtimes"] {
+      jsonEvent["config"]["target_runtimes"] = journey_metric["runtimes"]
+    } else {
+      jsonEvent["config"]["target_runtimes"] = ""
+    }
+    if journey_metric["services"] {
+      jsonEvent["config"]["target_services"] = journey_metric["services"]
+    } else {
+      jsonEvent["config"]["target_services"] = ""
+    }
+    if journey_metric["event_id"] {
+      jsonEvent["config"]["event_id"] = journey_metric["event_id"]
+    } else {
+      jsonEvent["config"]["event_id"] = ""
+    }
+    if journey_metric["event_organizer"] {
+      jsonEvent["config"]["event_organizer"] = journey_metric["event_organizer"]
+    } else {
+      jsonEvent["config"]["event_organizer"] = ""
+    }
+    } catch {
+      Log.verbose("repository.yaml not exist.")
+    }
 
     Log.verbose("Finished preparing dictionary payload for metrics-tracker-service.")
     Log.verbose("Dictionary payload for metrics-tracker-service is: \(jsonEvent)")
