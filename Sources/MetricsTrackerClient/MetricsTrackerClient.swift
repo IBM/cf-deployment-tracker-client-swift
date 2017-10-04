@@ -102,13 +102,14 @@ public struct MetricsTrackerClient {
         Log.verbose("Failed to create URL object to connect to the github repository...")
         return nil
       }
-    var yaml = ""
+    let yaml = ""
     let request = URLRequest(url: url)
-    let requestTask = URLSession.shared.dataTask(with: request) { (yamldata, response, error) in
+    request.httpMethod = "GET"
+    let requestTask = URLSession(configuration: .default).dataTask(with: request) { (yamldata, response, error) in
     if error != nil {
     } else {
         if let yamlData = yamldata {
-             Log.info("data is \(yamldata)")
+             Log.info("data is \(yamlData)")
              // yaml = yamlData
              }
         }
