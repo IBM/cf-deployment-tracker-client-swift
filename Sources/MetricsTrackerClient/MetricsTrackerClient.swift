@@ -100,20 +100,13 @@ public struct MetricsTrackerClient {
     }
     let urlString = "https://raw.githubusercontent.com/" + org + "/" + repository + "/master/repository.yaml"
     Log.info(urlString)
-    guard let url = URL(string: urlString) else {
-        Log.info("Failed to create URL object to connect to the github repository...")
-        return nil
-      }
     var yaml = ""
     KituraRequest.request(.get, urlString).response {
       request, response, data, error in
         if let data = data, let utf8Text = String(data: data, encoding: .utf8) {
-        print("Data: \(utf8Text)") // original server data as UTF8 string
         yaml = utf8Text
         }
       }
-
-    Log.info("yaml is \(yaml)")
 
     Log.verbose("Preparing dictionary payload for metrics-tracker-service...")
     let dateFormatter = DateFormatter()
@@ -176,9 +169,11 @@ public struct MetricsTrackerClient {
     metrics["event_id"] = journey_metric["event_id"]
     metrics["event_organizer"] = journey_metric["event_organizer"]
     jsonEvent["config"] = metrics
+    Log.info("yaml ready")
     } catch {
-      Log.info("repository.yaml not exist.")
+      Log.verbose("repository.yaml not exist.")
     }
+    Log.info("jsonEvent is \(jsonEvent)")
 
     Log.verbose("Finished preparing dictionary payload for metrics-tracker-service.")
     Log.verbose("Dictionary payload for metrics-tracker-service is: \(jsonEvent)")
