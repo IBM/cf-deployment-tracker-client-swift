@@ -19,7 +19,7 @@ import Configuration
 import CloudFoundryEnv
 import LoggerAPI
 import Yaml
-import Alamofire
+import KituraRequest
 
 public struct MetricsTrackerClient {
   let configMgr: ConfigurationManager
