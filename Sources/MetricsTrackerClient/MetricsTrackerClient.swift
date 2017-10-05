@@ -105,7 +105,7 @@ public struct MetricsTrackerClient {
         return nil
       }
     var yaml = ""
-    yaml = KituraRequest.request(.get, urlString).response {
+    KituraRequest.request(.get, urlString).response {
       request, response, data, error in
         if let data = data, let utf8Text = String(data: data, encoding: .utf8) {
         print("Data: \(utf8Text)") // original server data as UTF8 string
