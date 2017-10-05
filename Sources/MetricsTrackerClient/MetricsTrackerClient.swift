@@ -111,7 +111,7 @@ public struct MetricsTrackerClient {
       return
     }
     Log.info("HTTP response code: \(httpResponse.statusCode)")
-    if let yamlData = yamldata, let jsonResponse = try? JSONSerialization.jsonObject(with: yamlData, options: []) as? [String:Any] { 
+    if let yamlData = yamldata, let jsonResponse = try? JSONSerialization.jsonObject(with: yamlData, options: []) as! [String:Any] { 
          yaml = jsonResponse["text"] as? String
          }
     }
