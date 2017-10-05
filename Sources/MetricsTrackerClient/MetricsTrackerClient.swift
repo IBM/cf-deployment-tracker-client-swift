@@ -104,7 +104,7 @@ public struct MetricsTrackerClient {
         return nil
       }
     do{
-    let contents = try String(contentsOf: url)
+    let contents = try String(contentsOfFile: url)
     Log.info("contents is \(contents)")
     } catch {}
     let yaml = ""
