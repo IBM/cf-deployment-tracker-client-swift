@@ -103,13 +103,8 @@ public struct MetricsTrackerClient {
         Log.info("Failed to create URL object to connect to the github repository...")
         return nil
       }
-    do{
-    let contents = try String(contentsOfFile: url)
-    Log.info("contents is \(contents)")
-    } catch {}
     let yaml = ""
     var request = URLRequest(url: url)
-    request.httpMethod = "GET"
     let requestTask = URLSession(configuration: .default).dataTask(with: request) { (yamldata, response, error) in
     guard let httpResponse = response as? HTTPURLResponse else {
       Log.error("Failed to send tracking data to metrics-tracker-service: \(String(describing: error))")
@@ -118,10 +113,12 @@ public struct MetricsTrackerClient {
     Log.info("HTTP response code: \(httpResponse.statusCode)")
     if let yamlData = yamldata, let jsonResponse = try? JSONSerialization.jsonObject(with: yamlData, options: []) { 
          Log.info("data is \(jsonResponse)")
-         // yaml = yamlData
+         yaml = jsonResponse
          }
     }
     requestTask.resume()
+
+    Log.info("yaml is \(yaml)")
 
     Log.verbose("Preparing dictionary payload for metrics-tracker-service...")
     let dateFormatter = DateFormatter()
