@@ -104,7 +104,7 @@ public struct MetricsTrackerClient {
         return nil
       }
     var yaml = ""
-    var request = URLRequest(url: url)
+    let request = URLRequest(url: url)
     let requestTask = URLSession(configuration: .default).dataTask(with: request) { (yamldata, response, error) in
     guard let httpResponse = response as? HTTPURLResponse else {
       Log.error("Failed to send tracking data to metrics-tracker-service: \(String(describing: error))")
@@ -112,8 +112,7 @@ public struct MetricsTrackerClient {
     }
     Log.info("HTTP response code: \(httpResponse.statusCode)")
     if let yamlData = yamldata, let jsonResponse = try? JSONSerialization.jsonObject(with: yamlData, options: []) { 
-         Log.info("data is \(jsonResponse)")
-         yaml = jsonResponse
+         yaml = jsonResponse["text"] as? String
          }
     }
     requestTask.resume()
