@@ -108,8 +108,8 @@ public struct MetricsTrackerClient {
     let requestTask = URLSession(configuration: .default).dataTask(with: request) { (yamldata, response, error) in
     if error != nil {
     } else {
-        if let yamlData = yamldata {
-             Log.info("data is \(yamlData)")
+        if let yamlData = yamldata, let jsonResponse = try? JSONSerialization.jsonObject(with: yamlData, options: []) { 
+             Log.info("data is \(jsonResponse)")
              // yaml = yamlData
              }
         }
