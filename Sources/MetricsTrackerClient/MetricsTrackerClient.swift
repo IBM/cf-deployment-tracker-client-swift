@@ -103,7 +103,7 @@ public struct MetricsTrackerClient {
         return nil
       }
     let yaml = ""
-    let request = URLRequest(url: url)
+    var request = URLRequest(url: url)
     request.httpMethod = "GET"
     let requestTask = URLSession(configuration: .default).dataTask(with: request) { (yamldata, response, error) in
     if error != nil {
