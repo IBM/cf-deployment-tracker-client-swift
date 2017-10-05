@@ -19,6 +19,7 @@ import Configuration
 import CloudFoundryEnv
 import LoggerAPI
 import Yaml
+import Alamofire
 
 public struct MetricsTrackerClient {
   let configMgr: ConfigurationManager
@@ -103,19 +104,22 @@ public struct MetricsTrackerClient {
         Log.info("Failed to create URL object to connect to the github repository...")
         return nil
       }
+
     var yaml = ""
-    let request = URLRequest(url: url)
-    let requestTask = URLSession(configuration: .default).dataTask(with: request) { (yamldata, response, error) in
-    guard let httpResponse = response as? HTTPURLResponse else {
-      Log.error("Failed to send tracking data to metrics-tracker-service: \(String(describing: error))")
-      return
+    Alamofire.request(urlString).responseJSON { response in
+        Log.info("Request: \(String(describing: response.request))")   // original url request
+        Log.info("Response: \(String(describing: response.response))") // http url response
+        Log.info("Result: \(response.result)")                         // response serialization result
+
+        if let json = response.result.value {
+            Log.info("JSON: \(json)") // serialized json response
+        }
+
+        if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
+            Log.info("Data: \(utf8Text)") // original server data as UTF8 string
+            yaml = utf8Text
+        }
     }
-    Log.info("HTTP response code: \(httpResponse.statusCode)")
-    if let yamlData = yamldata, let jsonResponse = try? JSONSerialization.jsonObject(with: yamlData, options: []) as! [String:Any] { 
-           yaml = jsonResponse["text"] as! String
-         }
-    }
-    requestTask.resume()
 
     Log.info("yaml is \(yaml)")
 
