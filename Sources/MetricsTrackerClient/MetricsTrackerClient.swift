@@ -103,8 +103,10 @@ public struct MetricsTrackerClient {
         Log.info("Failed to create URL object to connect to the github repository...")
         return nil
       }
+    do{
     let contents = try String(contentsOf: url)
     Log.info("contents is \(contents)")
+    } catch {}
     let yaml = ""
     var request = URLRequest(url: url)
     request.httpMethod = "GET"
