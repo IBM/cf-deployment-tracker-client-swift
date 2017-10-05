@@ -98,21 +98,24 @@ public struct MetricsTrackerClient {
       org = organization
     }
     let urlString = "https://raw.githubusercontent.com/" + org + "/" + repository + "/master/repository.yaml"
+    Log.info(urlString)
     guard let url = URL(string: urlString) else {
-        Log.verbose("Failed to create URL object to connect to the github repository...")
+        Log.info("Failed to create URL object to connect to the github repository...")
         return nil
       }
     let yaml = ""
     var request = URLRequest(url: url)
     request.httpMethod = "GET"
     let requestTask = URLSession(configuration: .default).dataTask(with: request) { (yamldata, response, error) in
-    if error != nil {
-    } else {
-        if let yamlData = yamldata, let jsonResponse = try? JSONSerialization.jsonObject(with: yamlData, options: []) { 
-             Log.info("data is \(jsonResponse)")
-             // yaml = yamlData
-             }
-        }
+    guard let httpResponse = response as? HTTPURLResponse else {
+      Log.error("Failed to send tracking data to metrics-tracker-service: \(String(describing: error))")
+      return
+    }
+    Log.info("HTTP response code: \(httpResponse.statusCode)")
+    if let yamlData = yamldata, let jsonResponse = try? JSONSerialization.jsonObject(with: yamlData, options: []) { 
+         Log.info("data is \(jsonResponse)")
+         // yaml = yamlData
+         }
     }
     requestTask.resume()
 
@@ -136,7 +139,6 @@ public struct MetricsTrackerClient {
     jsonEvent["runtime"] = "swift"
     if let vcapApplication = configMgr.getApp() {
 
-    
     jsonEvent["application_name"] = vcapApplication.name
     jsonEvent["space_id"] = vcapApplication.spaceId
     jsonEvent["application_id"] = vcapApplication.id
