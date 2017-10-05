@@ -112,10 +112,7 @@ public struct MetricsTrackerClient {
     }
     Log.info("HTTP response code: \(httpResponse.statusCode)")
     if let yamlData = yamldata, let jsonResponse = try? JSONSerialization.jsonObject(with: yamlData, options: []) as! [String:Any] { 
-           guard yaml = jsonResponse["text"] as? String else{
-              Log.info("can't convert text")
-              return nil
-           }
+           yaml = jsonResponse["text"] as! String
          }
     }
     requestTask.resume()
