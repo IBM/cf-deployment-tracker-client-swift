@@ -171,6 +171,7 @@ public struct MetricsTrackerClient {
     // } catch {
     //   Log.verbose("repository.yaml not exist.")
     // }
+    Log.info("yaml is \(jsonEvent)")
 
     Log.verbose("Finished preparing dictionary payload for metrics-tracker-service.")
     Log.verbose("Dictionary payload for metrics-tracker-service is: \(jsonEvent)")
