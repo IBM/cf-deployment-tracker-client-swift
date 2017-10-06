@@ -46,10 +46,10 @@ public struct MetricsTrackerClient {
     if let trackerJson = buildTrackerJson(configMgr: configMgr),
     let jsonData = try? JSONSerialization.data(withJSONObject: trackerJson) {
       let jsonStr = String(data: jsonData, encoding: .utf8)
-      Log.verbose("JSON payload for metrics-tracker-service is: \(String(describing: jsonStr))")
+      Log.info("JSON payload for metrics-tracker-service is: \(String(describing: jsonStr))")
       // Build URL instance
       guard let url = URL(string: "https://metrics-tracker.mybluemix.net:443/api/v1/track") else {
-        Log.verbose("Failed to create URL object to connect to metrics-tracker-service...")
+        Log.info("Failed to create URL object to connect to metrics-tracker-service...")
         return
       }
       var request = URLRequest(url: url)
@@ -169,11 +169,9 @@ public struct MetricsTrackerClient {
     metrics["event_id"] = journey_metric["event_id"]
     metrics["event_organizer"] = journey_metric["event_organizer"]
     jsonEvent["config"] = metrics
-    Log.info("yaml ready")
     } catch {
       Log.verbose("repository.yaml not exist.")
     }
-    Log.info("jsonEvent is \(jsonEvent)")
 
     Log.verbose("Finished preparing dictionary payload for metrics-tracker-service.")
     Log.verbose("Dictionary payload for metrics-tracker-service is: \(jsonEvent)")
