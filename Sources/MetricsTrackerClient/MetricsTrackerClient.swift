@@ -163,27 +163,27 @@ public struct MetricsTrackerClient {
     let journey_metric = try Yaml.load(yaml)
     var metrics = [String: Any]()
     if journey_metric["id"] != nil {
-      metrics["repository_id"] = journey_metric["id"]
+      metrics["repository_id"] = journey_metric["id"].string
     } else{
       metrics["repository_id"] = ""
     }
     if journey_metric["runtimes"] != nil {
-      metrics["target_runtimes"] = journey_metric["runtimes"]
+      metrics["target_runtimes"] = journey_metric["runtimes"].rawValue
     } else {
       metrics["target_runtimes"] = ""
     }
     if journey_metric["services"] != nil {
-      metrics["target_services"] = journey_metric["services"]
+      metrics["target_services"] = journey_metric["services"].rawValue
     } else {
       metrics["target_services"] = ""
     }
     if journey_metric["event_id"] != nil {
-      metrics["event_id"] = journey_metric["event_id"]
+      metrics["event_id"] = journey_metric["event_id"].string
     } else {
       metrics["event_id"] = ""
     }
     if journey_metric["event_organizer"] != nil {
-      metrics["event_organizer"] = journey_metric["event_organizer"]
+      metrics["event_organizer"] = journey_metric["event_organizer"].string
     } else {
       metrics["event_organizer"] = ""
     }
