@@ -99,7 +99,6 @@ public struct MetricsTrackerClient {
       org = organization
     }
     let urlString = "https://raw.githubusercontent.com/" + org + "/" + repository + "/master/repository.yaml"
-    Log.info(urlString)
     var yaml = ""
     KituraRequest.request(.get, urlString).response {
       request, response, data, error in
@@ -160,18 +159,18 @@ public struct MetricsTrackerClient {
     }
   }
 
-    do {
-    let journey_metric = try Yaml.load(yaml)
-    var metrics = [String: Any]()
-    metrics["repository_id"] = journey_metric["id"]
-    metrics["target_runtimes"] = journey_metric["runtimes"]
-    metrics["target_services"] = journey_metric["services"]
-    metrics["event_id"] = journey_metric["event_id"]
-    metrics["event_organizer"] = journey_metric["event_organizer"]
-    jsonEvent["config"] = metrics
-    } catch {
-      Log.verbose("repository.yaml not exist.")
-    }
+    // do {
+    // let journey_metric = try Yaml.load(yaml)
+    // var metrics = [String: Any]()
+    // metrics["repository_id"] = journey_metric["id"]
+    // metrics["target_runtimes"] = journey_metric["runtimes"]
+    // metrics["target_services"] = journey_metric["services"]
+    // metrics["event_id"] = journey_metric["event_id"]
+    // metrics["event_organizer"] = journey_metric["event_organizer"]
+    // jsonEvent["config"] = metrics
+    // } catch {
+    //   Log.verbose("repository.yaml not exist.")
+    // }
 
     Log.verbose("Finished preparing dictionary payload for metrics-tracker-service.")
     Log.verbose("Dictionary payload for metrics-tracker-service is: \(jsonEvent)")
