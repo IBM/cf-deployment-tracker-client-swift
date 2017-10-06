@@ -168,12 +168,12 @@ public struct MetricsTrackerClient {
       metrics["repository_id"] = ""
     }
     if journey_metric["runtimes"] != nil {
-      metrics["target_runtimes"] = journey_metric["runtimes"].rawValue
+      metrics["target_runtimes"] = journey_metric["runtimes"].array
     } else {
       metrics["target_runtimes"] = ""
     }
     if journey_metric["services"] != nil {
-      metrics["target_services"] = journey_metric["services"].rawValue
+      metrics["target_services"] = journey_metric["services"].array
     } else {
       metrics["target_services"] = ""
     }
