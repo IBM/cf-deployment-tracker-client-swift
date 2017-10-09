@@ -1,8 +1,10 @@
-[![Build Status - Master](https://travis-ci.org/IBM-Bluemix/cf-deployment-tracker-client-swift.svg?branch=master)](https://travis-ci.org/IBM-Bluemix/cf-deployment-tracker-client-swift)
+[![Build Status](https://travis-ci.org/IBM/metrics-collector-client-swift.svg?branch=master)](https://travis-ci.org/IBM/metrics-collector-client-swift)
 [![Platform][platform-badge]][platform-url]
 
 # Overview
-The cf deployment tracker for Swift is a package used to track number of deployments to Bluemix for a particular Swift project. This Swift package requires little setup and allows IBMers to view deployment stats on the [Deployment Tracker](https://metrics-tracker.mybluemix.net/stats), for their demo/tutorial projects. If you'd like, you can include a deployment count badge in your project's README:
+Metrics Collector Service collects statistics for deployment of a github sample code on Cloud Foundry, Kubernetes, Data Science Experience, OpenWhisk etc.
+
+The MetricsTrackerClient for Swift is a package used to track number of deployments for a particular Swift project. This Swift package requires little setup and allows IBMers to view deployment stats on the [Deployment Tracker](https://metrics-tracker.mybluemix.net/stats), for their demo/tutorial projects. If you'd like, you can include a deployment count badge in your project's README:
 
 ![Deployment badge example](badge.png "Deployment Badge")
 
@@ -12,7 +14,7 @@ The cf deployment tracker for Swift is a package used to track number of deploym
 You can download different versions of the Swift binaries by following this [link](https://swift.org/download/).
 
 ## To Use
-1. To leverage the cf-deployment-tracker-client-swift package in your Swift application, you should specify a dependency for it in your `Package.swift` file:
+1. To leverage the MetricsTrackerClient package in your Swift application, you should specify a dependency for it in your `Package.swift` file:
 
 	```swift
 	 import PackageDescription
