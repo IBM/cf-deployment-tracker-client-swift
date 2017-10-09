@@ -98,6 +98,7 @@ public struct MetricsTrackerClient {
     if let organization = self.organization {
       org = organization
     }
+    //Get the yaml file in the master's top level directory using the organization and repository name.
     let urlString = "https://raw.githubusercontent.com/" + org + "/" + repository + "/master/repository.yaml"
     var yaml = ""
     KituraRequest.request(.get, urlString).response {
@@ -125,6 +126,8 @@ public struct MetricsTrackerClient {
       jsonEvent["code_version"] = codeVersion
     }
     jsonEvent["runtime"] = "swift"
+
+    //If not deployed on Cloud Foundry, ignore all the CF environment variables.
     if let vcapApplication = configMgr.getApp() {
 
     jsonEvent["application_name"] = vcapApplication.name
@@ -159,6 +162,7 @@ public struct MetricsTrackerClient {
     }
   }
 
+    //Convert the yaml string to Json.
     do {
     let journey_metric = try Yaml.load(yaml)
     var metrics = [String: Any]()
@@ -201,8 +205,6 @@ public struct MetricsTrackerClient {
     } catch {
       Log.info("repository.yaml not exist.")
     }
-
-    Log.info("yaml is \(jsonEvent)")
 
     Log.verbose("Finished preparing dictionary payload for metrics-tracker-service.")
     Log.verbose("Dictionary payload for metrics-tracker-service is: \(jsonEvent)")
