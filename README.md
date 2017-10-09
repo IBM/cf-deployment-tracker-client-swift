@@ -43,11 +43,36 @@ You can download different versions of the Swift binaries by following this [lin
 	MetricsTrackerClient(repository: "BluePic", organization: "IBM").track()
 
 	```
-**Note:** You must replace `BluePic` with your own Github repository name. If your repository is not `IBM`, please also replaces `IBM` with your repository's organization.
+**Note:** You must replace `BluePic` with your own Github repository name. If your repository is not in `IBM`, please also replaces `IBM` with your repository's organization.
 
 The above code should be used within the main entry point of your Swift application, generally before you start your server.
 
-3. Lastly, you should add a copy of the [Privacy Notice](#privacy-notice) to the README of your project. All applications that use the deployment tracker must have a Privacy Notice.
+3. Add a [repository.yaml](#example-repositoryyaml-file) file in your GitHub master's top level repository.
+
+4. Lastly, you should add a copy of the [Privacy Notice](#privacy-notice) to the README of your project. All applications that use the deployment tracker must have a Privacy Notice.
+
+## Example repository.yaml file
+
+The repository.yaml need to be written in Yaml format. Also, please put all your keys in lower case.
+
+```yaml
+id: watson-discovery-news
+runtimes: 
+  - Cloud Foundry
+services: 
+  - Discovery
+event_id: web
+event_organizer: dev-journeys
+```
+
+Required field:
+
+1. id: Put your journey name/Github URL of your journey.
+2. runtimes: Put down all your platform runtime environments in a list.
+3. services: Put down all the bluemix services that are used in your journey in a list.
+4. event_id: Put down where you will distribute your journey. Default is web.
+5. event_organizer: Put down your event organizer if you have one.
+
 
 ## Example App
 To see how to include this package into your app, please visit [Kitura-Starter](https://github.com/IBM-Bluemix/Kitura-Starter). View the [Package.swift](https://github.com/IBM-Bluemix/Kitura-Starter/blob/master/Package.swift#L29) and [main.swift](https://github.com/IBM-Bluemix/Kitura-Starter/blob/master/Sources/Kitura-Starter/main.swift#L30) as a reference.
