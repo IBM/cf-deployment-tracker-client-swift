@@ -35,7 +35,7 @@ let package = Package(
     targets: [
       .target(
         name: "MetricsTrackerClient",
-        dependencies: ["CloudFoundryEnv", "LoggerAPI", "Yaml", "Alamofire"]
+        dependencies: ["CloudFoundryEnv", "LoggerAPI", "Yaml", "KituraRequest"]
       ),
       .testTarget(
         name: "MetricsTrackerClientTests",
