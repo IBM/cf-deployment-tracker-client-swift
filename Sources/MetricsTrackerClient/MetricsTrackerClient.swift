@@ -100,6 +100,7 @@ public struct MetricsTrackerClient {
     }
     //Get the yaml file in the master's top level directory using the organization and repository name.
     let urlString = "https://raw.githubusercontent.com/" + org + "/" + repository + "/master/repository.yaml"
+    let repoString = "https://github.com/" + org + "/" + repository
     var yaml = ""
     KituraRequest.request(.get, urlString).response {
       request, response, data, error in
@@ -107,7 +108,6 @@ public struct MetricsTrackerClient {
         yaml = utf8Text
         }
       }
-
     Log.verbose("Preparing dictionary payload for metrics-tracker-service...")
     let dateFormatter = DateFormatter()
     #if os(OSX)
@@ -126,6 +126,7 @@ public struct MetricsTrackerClient {
       jsonEvent["code_version"] = codeVersion
     }
     jsonEvent["runtime"] = "swift"
+    jsonEvent["repository_url"] = repoString
 
     //If not deployed on Cloud Foundry, ignore all the CF environment variables.
     if let vcapApplication = configMgr.getApp() {
