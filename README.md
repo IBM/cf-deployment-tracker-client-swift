@@ -58,7 +58,7 @@ The above code should be used within the main entry point of your Swift applicat
 The repository.yaml need to be written in Yaml format. Also, please put all your keys in lower case.
 
 ```yaml
-id: BluePic
+id: https://github.com/IBM/BluePic
 runtimes: 
   - Cloud Foundry
 services: 
@@ -70,13 +70,17 @@ language: swift
 
 Required field:
 
-1. id: Put your journey name/Github URL of your journey/pattern.
-	- Note: Please put down the Github URL if your journey/pattern is not from IBM organization.
+1. id: Put your Github URL of your pattern/project.
+   - Note: Please put down the Github URL if your pattern is not from **IBM** organization in Github.
 2. runtimes: Put down all your platform runtime environments in a list.
 3. services: Put down all the IBM Cloud services that are used in your journey in a list.
-4. event_id: Put down where you will distribute your journey. Default is web.
-5. event_organizer: Put down your event organizer if you have one.
-6. language: If your journey is not in **swift**, please put down the journey's main language in lower case.
+4. event_id: Put down where you will distribute your application. Default is **web**. 
+5. event_organizer: Put down your event organizer if you have one. Default is **dev-journeys**
+6. language: If your application is not in **swift**, please put down the application's main language in lower case.
+
+# List of runtimes, services, and languages
+
+Please go to the [service list page](https://github.com/IBM/metrics-collector-service/blob/master/docs/service_list.md) to get the list of official names for runtimes, services, and languages.
 
 ## Example App
 To see how to include this package into your app, please visit [BluePic](https://github.com/IBM/BluePic). View the [Package.swift](https://github.com/IBM/BluePic/blob/master/BluePic-Server/Package.swift#L35) and [main.swift](https://github.com/IBM/BluePic/blob/master/BluePic-Server/Sources/BluePicServer/main.swift#L29) as a reference.
@@ -84,7 +88,7 @@ To see how to include this package into your app, please visit [BluePic](https:/
 ## Privacy Notice
 ```
 ## Privacy Notice
-This Swift application includes code to track deployments to [IBM Cloud](https://www.bluemix.net/) and other Cloud Foundry platforms. The following information is sent to a [Deployment Tracker](https://github.com/IBM-Bluemix/cf-deployment-tracker-service) service on each deployment:
+This Swift application includes code to track deployments to [IBM Cloud](https://www.bluemix.net/) and other Cloud Foundry platforms. The following information is sent to a [Deployment Tracker](https://github.com/IBM/metrics-collector-service) service on each deployment:
 
 * Swift project code version (if provided)
 * Swift project repository URL
